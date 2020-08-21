@@ -28,12 +28,19 @@ public class CheckItemController {
     @PostMapping("/findPage")
     public Result findPage(@RequestBody QueryPageBean queryPageBean){
         PageResult<CheckItem> checkItems=checkItemService.findPage(queryPageBean);
-        return new Result(true,"查询成功",checkItems);
+        return new Result(true,MessageConstant.QUERY_CHECKITEM_SUCCESS,checkItems);
     }
 
     @PostMapping("/add")
     public Result add(@RequestBody CheckItem checkItem){
         checkItemService.add(checkItem);
-        return new Result(true,"添加成功");
+        return new Result(true,MessageConstant.ADD_CHECKITEM_SUCCESS);
+    }
+
+    @PostMapping("/deleteById")
+    public Result deleteById(int id){
+        System.out.println(id);
+        checkItemService.deleteById(id);
+        return new Result(true,MessageConstant.DELETE_CHECKITEM_SUCCESS);
     }
 }

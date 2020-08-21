@@ -310,6 +310,25 @@
             },
             // 删除
             handleDelete(row) {
+                this.$confirm('是否要删除' + row.code + ':' + row.name, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+
+                    axios.delete("/checkItem/deleteById?id="+row.id)
+                    .then(result=>{
+                        if(result.data.flag){
+                            this.$message({
+                                type: 'success',
+                                message: result.data.message
+                            });
+                            this.handleCurrentChange(1);
+                        }else{
+                            this.$message.error(result.data.message)
+                        }
+                    })
+                })
             }
         }
     })

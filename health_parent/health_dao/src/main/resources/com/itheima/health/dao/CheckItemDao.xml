@@ -30,4 +30,9 @@
         select count(*) from t_checkItem
         <include refid="selectQueryString"></include>
     </select>
+
+    <!-- 删除 -->
+    <delete id="deleteById" parameterType="int">
+        delete from t_checkItem where id=#{id}
+    </delete>
 </mapper>

@@ -7,6 +7,7 @@ import com.itheima.health.entity.QueryPageBean;
 import com.itheima.health.pojo.CheckItem;
 import com.itheima.health.service.CheckItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -41,5 +42,10 @@ public class CheckItemServiceImpl implements CheckItemService {
         Long count=checkItemDao.getCount(queryPageBean);
 
         return new PageResult<CheckItem>(count,pageRows);
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        checkItemDao.deleteById(id);
     }
 }

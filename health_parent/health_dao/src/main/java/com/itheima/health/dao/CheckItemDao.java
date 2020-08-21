@@ -12,4 +12,6 @@ public interface CheckItemDao {
 
     List<CheckItem> findPage(QueryPageBean queryPageBean);
     Long getCount(QueryPageBean queryPageBean);
+
+    void deleteById(Integer id);
 }
