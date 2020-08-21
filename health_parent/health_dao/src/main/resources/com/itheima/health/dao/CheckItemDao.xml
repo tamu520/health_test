@@ -11,4 +11,23 @@
     <insert id="add" parameterType="checkItem">
         insert t_checkItem values(null,#{code},#{name},#{sex},#{age},#{price},#{type},#{attention},#{remark});
     </insert>
+
+
+    <!--查询时需要的条件 代码片段-->
+    <sql id="selectQueryString">
+        <if test="queryString!=null and queryString.length>0">
+            where code like concat("%",#{queryString},"%") or name like concat("%",#{queryString},"%")
+        </if>
+    </sql>
+    <!--查询所有的检查项-->
+    <select id="findPage" parameterType="queryPageBean" resultType="checkItem">
+        select * from t_checkItem
+        <include refid="selectQueryString"></include>
+        limit #{currentPage},#{pageSize}
+    </select>
+    <!--查询所有的检查项的数量-->
+    <select id="getCount" parameterType="queryPageBean" resultType="long">
+        select count(*) from t_checkItem
+        <include refid="selectQueryString"></include>
+    </select>
 </mapper>

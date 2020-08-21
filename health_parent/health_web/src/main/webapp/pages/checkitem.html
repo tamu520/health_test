@@ -28,7 +28,7 @@
             <div class="filter-container">
                 <el-input placeholder="项目编码/项目名称" v-model="pagination.queryString" style="width: 200px;"
                           class="filter-item"></el-input>
-                <el-button @click="findPage()" class="dalfBut">查询</el-button>
+                <el-button @click="handleCurrentChange(1)" class="dalfBut">查询</el-button>
                 <el-button type="primary" class="butT" @click="handleCreate()">新建</el-button>
             </div>
             <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
@@ -228,7 +228,8 @@
         },
         //钩子函数，VUE对象初始化完成后自动执行
         created() {
-            this.findAll();
+            //this.findAll();
+            this.findPage();
         },
         methods: {
             //测试查询全部
@@ -250,7 +251,6 @@
             },
             //添加
             handleAdd() {
-
                 //检测 编码和项目名是否合法
                 this.$refs['dataAddForm'].validate(valid=>{
                     if(valid){
@@ -261,8 +261,11 @@
                                         message: result.data.message,
                                         type: 'success'
                                     });
+                                    //刷新数据
                                     this.findAll();
-                                    this.resetForm();
+                                    //this.resetForm();
+
+                                    //隐藏窗口
                                     this.dialogFormVisible = false;
                                 } else {
                                     this.$message.error(result.data.message)
@@ -276,6 +279,18 @@
             },
             //分页查询
             findPage() {
+                axios.post("/checkItem/findPage.do",this.pagination)
+                .then(result=>{
+                    if(result.data.flag){
+                        this.dataList = result.data.data.rows;
+                        this.pagination.total=result.data.data.total;
+                    } else {
+                        this.$message.error(result.data.message)
+                    }
+                })
+                .catch(error => {
+                    this.$message.error(error)
+                })
             },
             // 重置表单
             resetForm() {
@@ -290,6 +305,8 @@
             },
             //切换页码
             handleCurrentChange(currentPage) {
+                this.pagination.currentPage=currentPage;
+                this.findPage();
             },
             // 删除
             handleDelete(row) {

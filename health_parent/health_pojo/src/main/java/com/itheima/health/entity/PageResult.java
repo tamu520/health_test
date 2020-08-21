@@ -6,10 +6,19 @@ import java.util.List;
 /**
  * 分页结果封装对象
  */
-public class PageResult implements Serializable{
+public class PageResult<T> implements Serializable{
     private Long total;//总记录数
     private List rows;//当前页结果
-    public PageResult(Long total, List rows) {
+
+    @Override
+    public String toString() {
+        return "PageResult{" +
+                "total=" + total +
+                ", rows=" + rows +
+                '}';
+    }
+
+    public PageResult(Long total, List<T> rows) {
         super();
         this.total = total;
         this.rows = rows;
@@ -20,10 +29,10 @@ public class PageResult implements Serializable{
     public void setTotal(Long total) {
         this.total = total;
     }
-    public List getRows() {
+    public List<T> getRows() {
         return rows;
     }
-    public void setRows(List rows) {
+    public void setRows(List<T> rows) {
         this.rows = rows;
     }
 }
