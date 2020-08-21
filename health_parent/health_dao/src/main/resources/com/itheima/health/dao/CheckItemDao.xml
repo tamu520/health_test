@@ -7,4 +7,8 @@
     <select id="findAll" resultType="checkItem">
         select * from t_checkItem
     </select>
+
+    <insert id="add" parameterType="checkItem">
+        insert t_checkItem values(null,#{code},#{name},#{sex},#{age},#{price},#{type},#{attention},#{remark});
+    </insert>
 </mapper>

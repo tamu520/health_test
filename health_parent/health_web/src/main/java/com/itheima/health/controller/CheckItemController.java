@@ -5,9 +5,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.itheima.health.entity.Result;
 import com.itheima.health.pojo.CheckItem;
 import com.itheima.health.service.CheckItemService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import com.itheima.constant.MessageConstant;
@@ -24,5 +22,11 @@ public class CheckItemController {
         List<CheckItem> checkItems = checkItemService.findAll();
 
         return new Result(true,MessageConstant.QUERY_CHECKITEM_SUCCESS,checkItems);
+    }
+
+    @PostMapping("/add")
+    public Result add(@RequestBody CheckItem checkItem){
+        checkItemService.add(checkItem);
+        return new Result(true,"添加成功");
     }
 }
