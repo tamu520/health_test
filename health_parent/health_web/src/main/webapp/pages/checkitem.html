@@ -262,7 +262,7 @@
                                         type: 'success'
                                     });
                                     //刷新数据
-                                    this.findAll();
+                                    this.findPage();
                                     //this.resetForm();
 
                                     //隐藏窗口
@@ -328,7 +328,8 @@
                             this.$message.error(result.data.message)
                         }
                     })
-                })
+
+                }).catch(()=>{})
             }
         }
     })

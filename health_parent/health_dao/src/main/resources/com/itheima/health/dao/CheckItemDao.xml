@@ -16,14 +16,17 @@
     <!--查询时需要的条件 代码片段-->
     <sql id="selectQueryString">
         <if test="queryString!=null and queryString.length>0">
-            where code like concat("%",#{queryString},"%") or name like concat("%",#{queryString},"%")
+            <where>
+                <!--code like concat("%",#{queryString},"%") or name like concat("%",#{queryString},"%")-->
+                code like #{queryString} or name like #{queryString}
+            </where>
         </if>
     </sql>
     <!--查询所有的检查项-->
     <select id="findPage" parameterType="queryPageBean" resultType="checkItem">
         select * from t_checkItem
         <include refid="selectQueryString"></include>
-        limit #{currentPage},#{pageSize}
+        <!--limit #{currentPage},#{pageSize} 使用了pageHelper省略这一步-->
     </select>
     <!--查询所有的检查项的数量-->
     <select id="getCount" parameterType="queryPageBean" resultType="long">
@@ -31,8 +34,12 @@
         <include refid="selectQueryString"></include>
     </select>
 
-    <!-- 删除 -->
+    <!-- 删除一条检查项 -->
     <delete id="deleteById" parameterType="int">
         delete from t_checkItem where id=#{id}
     </delete>
+    <!-- 删除前 检查外键表是否还有 关联的数据 -->
+    <select id="findCountByCheckItemId" parameterType="int" resultType="int">
+        select count(1) from t_checkgroup_checkitem where checkitem_id=#{id}
+    </select>
 </mapper>
