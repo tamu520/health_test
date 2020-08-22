@@ -248,6 +248,24 @@
             },
             //编辑
             handleEdit() {
+                this.$refs['dataEditForm'].validate((valid=>{
+                    if(valid){
+                        axios.post("/checkItem/update.do",this.formData)
+                        .then(result=>{
+                            if(result.data.flag){
+                                this.$message({
+                                    type: 'success',
+                                    message: result.data.message
+                                });
+                                this.findPage();
+                                this.dialogFormVisible4Edit = false;
+                            }else{
+                                this.$message.error(result.data.message)
+                            }
+                        })
+                    }
+                }));
+
             },
             //添加
             handleAdd() {
@@ -302,6 +320,19 @@
             },
             // 弹出编辑窗口
             handleUpdate(row) {
+                //获取id
+                let id=row.id;
+
+                //用id获取最新的数据
+                axios.get("/checkItem/findById.do?id="+id)
+                .then(result=>{
+                    if(result.data.flag){
+                        this.formData=result.data.data;
+                        this.dialogFormVisible4Edit=true;
+                    }else{
+                        this.$message.error(result.data.message)
+                    }
+                })
             },
             //切换页码
             handleCurrentChange(currentPage) {

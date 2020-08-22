@@ -48,8 +48,8 @@ public class CheckItemServiceImpl implements CheckItemService {
 
         //判断是否有条件
         String queryString = queryPageBean.getQueryString();
-        if(queryString!=null && queryString.length()>0){
-            queryPageBean.setQueryString("%"+queryString+"%");
+        if (queryString != null && queryString.length() > 0) {
+            queryPageBean.setQueryString("%" + queryString + "%");
         }
 
         //获取查询结果  ,拿到条件下所有的结果
@@ -58,16 +58,26 @@ public class CheckItemServiceImpl implements CheckItemService {
 
         //能拿到所有的条件结果就 等于 拿到了所有的结果的条数 , 就不用再执行一次获取 数量的sql语句
         //从page拿到处理的结果
-        return new PageResult<CheckItem>(page.getTotal(),page.getResult());
+        return new PageResult<CheckItem>(page.getTotal(), page.getResult());
     }
 
     @Override
-    public void deleteById(Integer id) throws HealthException{
+    public void deleteById(Integer id) throws HealthException {
         int countByCheckItemId = checkItemDao.findCountByCheckItemId(id);
 
-        if(countByCheckItemId>0){
+        if (countByCheckItemId > 0) {
             throw new HealthException("这个检查项有关联的检查组,不能删除");
         }
         checkItemDao.deleteById(id);
+    }
+
+    @Override
+    public CheckItem findById(Integer id) {
+        return checkItemDao.findById(id);
+    }
+
+    @Override
+    public void update(CheckItem checkItem) {
+        checkItemDao.update(checkItem);
     }
 }

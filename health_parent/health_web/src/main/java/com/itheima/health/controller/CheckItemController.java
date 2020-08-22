@@ -27,6 +27,12 @@ public class CheckItemController {
         return new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS, checkItems);
     }
 
+    @GetMapping("/findById")
+    public Result findById(Integer id){
+        CheckItem checkItem=checkItemService.findById(id);
+        return new Result(true,null,checkItem);
+    }
+
     @PostMapping("/findPage")
     public Result findPage(@RequestBody QueryPageBean queryPageBean) {
         PageResult<CheckItem> checkItems = checkItemService.findPage(queryPageBean);
@@ -37,6 +43,12 @@ public class CheckItemController {
     public Result add(@RequestBody CheckItem checkItem) {
         checkItemService.add(checkItem);
         return new Result(true, MessageConstant.ADD_CHECKITEM_SUCCESS);
+    }
+
+    @PostMapping("/update")
+    public Result update(@RequestBody CheckItem checkItem){
+        checkItemService.update(checkItem);
+        return new Result(true, MessageConstant.EDIT_CHECKGROUP_SUCCESS);
     }
 
     @PostMapping("/deleteById")

@@ -15,4 +15,8 @@ public interface CheckItemService {
     PageResult<CheckItem> findPage(QueryPageBean queryPageBean);
 
     void deleteById(Integer id) throws HealthException;
+
+    CheckItem findById(Integer id);
+
+    void update(CheckItem checkItem);
 }

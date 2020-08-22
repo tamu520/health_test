@@ -8,10 +8,29 @@
         select * from t_checkItem
     </select>
 
+    <!--添加-->
     <insert id="add" parameterType="checkItem">
         insert t_checkItem values(null,#{code},#{name},#{sex},#{age},#{price},#{type},#{attention},#{remark});
     </insert>
 
+    <!--查找一条-->
+    <select id="findById" parameterType="int" resultType="checkItem">
+        select * from t_checkItem where id=#{id}
+    </select>
+
+    <!--更新数据-->
+    <update id="update" parameterType="checkItem">
+        update t_checkItem set
+            code=#{code},
+            name=#{name},
+            sex=#{sex},
+            age=#{age},
+            price=#{price},
+            type=#{type},
+            remark=#{attention},
+            attention=#{remark}
+        where id=#{id}
+    </update>
 
     <!--查询时需要的条件 代码片段-->
     <sql id="selectQueryString">
