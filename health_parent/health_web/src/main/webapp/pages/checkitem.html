@@ -316,7 +316,7 @@
                     type: 'warning'
                 }).then(() => {
 
-                    axios.delete("/checkItem/deleteById?id="+row.id)
+                    axios.post("/checkItem/deleteById.do?id="+row.id)
                     .then(result=>{
                         if(result.data.flag){
                             this.$message({
