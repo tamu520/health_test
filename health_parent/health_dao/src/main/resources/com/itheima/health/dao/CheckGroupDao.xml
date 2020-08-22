@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itheima.health.dao.CheckGroupDao">
+
+    <!--添加一条检查组的信息-->
+    <insert id="add" parameterType="checkGroup">
+        insert t_checkgroup(code,name,helpCode,sex,remark,attention)
+        values(#{code},#{name},#{helpCode},#{sex},#{remark},#{attention});
+
+        <selectKey resultType="int" keyProperty="id" order="AFTER">
+            select last_insert_id();
+        </selectKey>
+    </insert>
+
+    <!--添加检查组的 多个选择项-->
+    <insert id="addCheckGroupCheckItem" parameterType="int">
+        insert t_checkgroup_checkitem values(#{checkgroup_id},#{checkitem_id});
+    </insert>
+
+    <!--分页查询项目组-->
+    <select id="findByCondition" parameterType="string" resultType="checkGroup">
+        select * from t_checkgroup
+        <if test="value!=null and value.length>0">
+            <where>
+                code like #{value} or name like #{value} or helpCode like #{value}
+            </where>
+        </if>
+    </select>
+</mapper>

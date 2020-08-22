@@ -23,7 +23,6 @@ public class CheckItemController {
     @GetMapping("/findAll")
     public Result findAll() {
         List<CheckItem> checkItems = checkItemService.findAll();
-
         return new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS, checkItems);
     }
 
@@ -48,7 +47,7 @@ public class CheckItemController {
     @PostMapping("/update")
     public Result update(@RequestBody CheckItem checkItem){
         checkItemService.update(checkItem);
-        return new Result(true, MessageConstant.EDIT_CHECKGROUP_SUCCESS);
+        return new Result(true, MessageConstant.EDIT_CHECKITEM_SUCCESS);
     }
 
     @PostMapping("/deleteById")
