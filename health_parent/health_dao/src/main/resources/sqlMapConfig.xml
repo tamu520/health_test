@@ -7,6 +7,9 @@
         <plugin interceptor="com.github.pagehelper.PageHelper">
             <!-- 设置数据库类型 Oracle,Mysql,MariaDB,SQLite,Hsqldb,PostgreSQL 六种数据库-->
             <property name="dialect" value="mysql"/>
+
+            <!--当页数小于1则为第一页,页数大于最大页数则为最后一页-->
+            <property name="reasonable" value="true"/>
         </plugin>
     </plugins>
 </configuration>

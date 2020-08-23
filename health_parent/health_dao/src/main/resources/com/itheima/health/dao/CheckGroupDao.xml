@@ -29,4 +29,44 @@
             </where>
         </if>
     </select>
+
+    <!--查询一条项目组-->
+    <select id="findById" parameterType="int" resultType="checkGroup">
+        select * from t_checkgroup
+        <where>
+            id=#{id}
+        </where>
+    </select>
+    <!--查找检查组,有哪些检查项-->
+    <select id="findCheckItemIdsByCheckGroupId" parameterType="int" resultType="int">
+        select checkitem_id from t_checkgroup_checkitem
+        where checkgroup_id=#{id}
+    </select>
+
+    <!--更新检查组信息-->
+    <update id="update" parameterType="checkGroup">
+        update t_checkgroup set
+            code=#{code},
+            name=#{name},
+            helpCode=#{helpCode},
+            sex=#{sex},
+            remark=#{remark},
+            attention=#{attention}
+        where id=#{id}
+    </update>
+
+    <!--修改检查组与检查项关联表, 先删除原先的 然后再添加新的-->
+    <delete id="deleteCheckGroupCheckItem" parameterType="int">
+        delete from t_checkgroup_checkitem where checkgroup_id=#{id}
+    </delete>
+
+    <!--删除检查组前判断是否被套餐表setmeal使用-->
+    <select id="findSetmealCountByCheckGroupId" parameterType="int" resultType="int">
+        select count(1) from t_setmeal_checkgroup
+        where checkgroup_id=#{id}
+    </select>
+    <!--删除检查组-->
+    <delete id="deleteById" parameterType="int">
+        delete from t_checkgroup where id=#{id}
+    </delete>
 </mapper>

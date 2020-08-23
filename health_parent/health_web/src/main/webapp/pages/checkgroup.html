@@ -286,6 +286,19 @@
             methods: {
                 //编辑
                 handleEdit() {
+                    axios.post("/checkGroup/update.do?checkitemId="+this.checkitemIds,this.formData)
+                    .then(result=>{
+                        if(result.data.flag){
+                            this.$message({
+                                message: result.data.message,
+                                type: 'success'
+                            });
+                            this.dialogFormVisible4Edit=false;
+                            this.findPage();
+                        }else{
+                            this.$message.error(result.data.message)
+                        }
+                    })
                 },
                 //添加
                 handleAdd () {
@@ -322,21 +335,52 @@
                     this.formData={};
                     //清空检查项选择框
                     this.checkitemId=[];
+                    //先显示基本信息
+                    this.activeName="first";
                 },
                 // 弹出添加窗口
                 handleCreate() {
                     //加载检查项
-                    let result = this.handleCheckItem();
-                    console.log(result);
+                    this.handleCheckItem();
                     //重置表单
                     this.resetForm();
                     //显示添加框
                     this.dialogFormVisible=true;
-                    //先显示基本信息
-                    this.activeName="first";
                 },
                 // 弹出编辑窗口
                 handleUpdate(row) {
+                    this.resetForm();
+                    this.dialogFormVisible4Edit=true;
+                    let id=row.id;
+                    axios.get("/checkGroup/findById.do?id="+id)
+                    .then(checkGroupResult=>{
+                        if(checkGroupResult.data.flag){
+                            this.formData=checkGroupResult.data.data;
+
+                            //查找所有的检查项
+                            axios.get("/checkItem/findAll.do")
+                                .then(result=>{
+                                    if(result.data.flag){
+
+                                        this.tableData=result.data.data;
+                                        //查询关系表,勾选对应的关系列
+                                        axios.get("/checkGroup/findCheckItemIdsByCheckGroupId.do?id="+id)
+                                        .then(checkItemRes=>{
+                                            if(checkItemRes.data.flag){
+                                                this.checkitemIds=checkItemRes.data.data;
+                                            }else{
+                                                this.$message.error(checkItemRes.data.message);
+                                            }
+                                        })
+
+                                    }else{
+                                        this.$message.error(result.data.message);
+                                    }
+                                })
+                        }else{
+                            this.$message.error(checkGroupResult.data.message);
+                        }
+                    })
                 },
                 //切换页码
                 handleCurrentChange(currentPage) {
@@ -345,6 +389,24 @@
                 },
                 // 删除
                 handleDelete(row) {
+                    this.$confirm('是否要删除' + row.id + ':' + row.name, '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        axios.get("/checkGroup/deleteById.do?id="+row.id)
+                            .then(result=>{
+                                if(result.data.flag){
+                                    this.$message({
+                                        type: 'success',
+                                        message: result.data.message
+                                    });
+                                    this.handleCurrentChange(1);
+                                }else{
+                                    this.$message.error(result.data.message)
+                                }
+                            })
+                    }).catch(()=>{})
                 },
                 //添加或者编辑时 获取所有的检查项
                 handleCheckItem(){
