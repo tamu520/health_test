@@ -19,4 +19,6 @@ public interface CheckGroupService{
     void update(CheckGroup checkGroup, Integer[] checkitemId);
 
     void deleteById(Integer id) throws HealthException;
+
+    List<CheckGroup> findAll();
 }

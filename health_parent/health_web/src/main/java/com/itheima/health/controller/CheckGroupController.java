@@ -7,7 +7,7 @@ import com.itheima.health.entity.Result;
 import com.itheima.health.pojo.CheckGroup;
 import com.itheima.health.service.CheckGroupService;
 import org.springframework.web.bind.annotation.*;
-import com.itheima.constant.MessageConstant;
+import com.itheima.health.constant.MessageConstant;
 
 import java.util.List;
 
@@ -17,6 +17,12 @@ public class CheckGroupController{
 
     @Reference
     private CheckGroupService checkGroupService;
+
+    @GetMapping("/findAll")
+    public Result findAll(){
+        List<CheckGroup> checkGroups=checkGroupService.findAll();
+        return new Result(true,null,checkGroups);
+    }
 
     @PostMapping("/findPage")
     public Result findPage(@RequestBody QueryPageBean queryPageBean){

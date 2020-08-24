@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import com.itheima.constant.MessageConstant;
+import com.itheima.health.constant.MessageConstant;
 
 @RestController
 @RequestMapping("/checkItem")

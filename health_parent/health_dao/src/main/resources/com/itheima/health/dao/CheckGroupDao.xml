@@ -5,6 +5,15 @@
 
 <mapper namespace="com.itheima.health.dao.CheckGroupDao">
 
+    <sql id="findAllSql">
+        select id,code,name,helpCode,sex,remark,attention from t_checkgroup
+    </sql>
+
+    <!--查找全部-->
+    <select id="findAll" resultType="checkGroup">
+        <include refid="findAllSql"/>
+    </select>
+
     <!--添加一条检查组的信息-->
     <insert id="add" parameterType="checkGroup">
         insert t_checkgroup(code,name,helpCode,sex,remark,attention)
@@ -22,7 +31,7 @@
 
     <!--分页查询项目组-->
     <select id="findByCondition" parameterType="string" resultType="checkGroup">
-        select * from t_checkgroup
+        <include refid="findAllSql"/>
         <if test="value!=null and value.length>0">
             <where>
                 code like #{value} or name like #{value} or helpCode like #{value}

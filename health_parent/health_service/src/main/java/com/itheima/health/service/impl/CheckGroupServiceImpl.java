@@ -119,4 +119,13 @@ public class CheckGroupServiceImpl implements CheckGroupService {
         checkGroupDao.deleteById(id);
     }
 
+    /**
+     * 查找全部
+     * @return
+     */
+    @Override
+    public List<CheckGroup> findAll() {
+        return checkGroupDao.findAll();
+    }
+
 }

@@ -1,6 +1,5 @@
 package com.itheima.health.controller;
 
-
 import com.itheima.health.entity.Result;
 import com.itheima.health.exception.HealthException;
 import org.slf4j.Logger;
