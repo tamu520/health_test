@@ -25,4 +25,7 @@ public interface SetmealDao {
     int findOrderCountBySetmealId(Integer id);
 
     void deleteById(Integer id);
+
+    //查找数据库所有的图片名
+    List<String> findImgs();
 }
