@@ -1,4 +1,4 @@
-package com.itheima.health.service;
+package com.itheima.health;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

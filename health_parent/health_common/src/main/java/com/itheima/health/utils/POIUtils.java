@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class POIUtils {
     private final static String xls = "xls";
     private final static String xlsx = "xlsx";
-    private final static String DATE_FORMAT = "yyyy/MM/dd";
+    public final static String DATE_FORMAT = "yyyy/MM/dd";
     /**
      * 读入excel文件，解析后返回
      * @param file

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.health.dao.OrderSettingDao">
+    <!--根据日期查找数据-->
+    <select id="findByOrderDate" parameterType="date" resultType="orderSetting">
+        select id,orderDate,number,reservations from t_ordersetting where orderDate=#{orderDate};
+    </select>
+
+    <!--添加一个日期的数据-->
+    <insert id="add" parameterType="orderSetting">
+        insert t_ordersetting(orderDate,number,reservations)
+        values(#{orderDate},#{number},#{reservations});
+    </insert>
+
+    <!-- 更改日期中的预约人数 -->
+    <update id="updateNumber" parameterType="orderSetting">
+        update t_ordersetting set number=#{number}
+        where orderDate=#{orderDate};
+    </update>
+
+    <select id="getOrderSettingByMonth" parameterType="map" resultType="map">
+        select DAY(orderDate) date,number,reservations from t_ordersetting
+        where orderDate between #{minDate} and #{maxDate};
+    </select>
+</mapper>
