@@ -78,4 +78,43 @@
     <select id="findImgs" resultType="string">
         select img from t_setmeal
     </select>
+
+    <!--查找所有的套餐-->
+    <select id="findAll" resultType="setmeal">
+        <include refid="findAllSql"></include>
+    </select>
+
+    <!--前端使用:根据id查询信息-->
+    <select id="findDetailById" parameterType="int" resultMap="findDetailByIdMap">
+        SELECT ts.id,ts.name,ts.sex,ts.age,ts.remark,img,
+                tcg.id checkgroupId,tcg.name checkgroupName,tcg.remark checkgroupRemark,
+                tc.id checkitemId,tc.name checkitemName
+        FROM t_setmeal ts,
+                t_setmeal_checkgroup tsc,
+                t_checkgroup tcg,
+                t_checkgroup_checkitem tcc,
+                t_checkitem tc
+        where ts.id=tsc.setmeal_id and tcg.id=tsc.checkgroup_id
+        and tcg.id=tcc.checkgroup_id and tc.id=tcc.checkitem_id
+        and ts.id=#{id}
+
+    </select>
+    <resultMap id="findDetailByIdMap" type="setmeal">
+        <id property="id" column="id"></id>
+        <result property="name" column="name"></result>
+        <result property="sex" column="sex"></result>
+        <result property="remark" column="remark"></result>
+        <result property="img" column="img"></result>
+
+        <collection property="checkGroups" ofType="checkGroup">
+            <id property="id" column="checkgroupId"></id>
+            <result property="name" column="checkgroupName"></result>
+            <result property="remark" column="checkgroupRemark"></result>
+
+            <collection property="checkItems" ofType="checkItem">
+                <id property="id" column="checkitemId"></id>
+                <result property="name" column="checkitemName"></result>
+            </collection>
+        </collection>
+    </resultMap>
 </mapper>

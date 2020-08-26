@@ -28,4 +28,8 @@ public interface SetmealDao {
 
     //查找数据库所有的图片名
     List<String> findImgs();
+
+    List<Setmeal> findAll();
+
+    Setmeal findDetailById(int id);
 }

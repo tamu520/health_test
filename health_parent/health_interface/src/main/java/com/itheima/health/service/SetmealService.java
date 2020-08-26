@@ -22,4 +22,8 @@ public interface SetmealService {
     void deleteById(int id) throws HealthException;
 
     List<String> findImgs();
+
+    List<Setmeal> findAll();
+
+    Setmeal findDetailById(int id);
 }
