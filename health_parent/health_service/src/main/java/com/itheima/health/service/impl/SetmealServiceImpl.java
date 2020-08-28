@@ -9,10 +9,21 @@ import com.itheima.health.entity.QueryPageBean;
 import com.itheima.health.exception.HealthException;
 import com.itheima.health.pojo.Setmeal;
 import com.itheima.health.service.SetmealService;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
+import javax.annotation.PostConstruct;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service(interfaceClass = SetmealService.class)
 public class SetmealServiceImpl implements SetmealService {
@@ -123,4 +134,56 @@ public class SetmealServiceImpl implements SetmealService {
         return setmealDao.findDetailById(id);
     }
 
+
+    //静态化页面区域
+
+    @Autowired
+    private FreeMarkerConfigurer freeMarkerConfigurer;
+
+    //生成模板路径的前缀
+    @Value("${out_put_path}")
+    private String out_put_path;
+
+    /**
+     * 用于将模板 生成 静态页面的方法
+     * @param templateName  模板的文件名
+     * @param dataMap   需要处理显示到页面的数据
+     * @param filename  生成静态页面的文件名
+     */
+    private void generateHtml(String templateName, Map<String,Object> dataMap,String filename){
+        Configuration configuration = freeMarkerConfigurer.getConfiguration();
+        //获取模板的对象
+        try {
+            Template template = configuration.getTemplate(templateName);
+            BufferedWriter bf = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename), "utf-8"));
+            //将数据写进模板里面
+            template.process(dataMap,bf);
+
+            bf.flush();
+            bf.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 套餐列表的专属 生成静态页面方法
+     * @param setmealList   所有套餐的信息
+     */
+    /*@PostConstruct*/
+    private void generateSetmealList(List<Setmeal> setmealList){
+        //用于给模板的map
+        Map<String, Object> map = new HashMap<>();
+        //将套餐集合放进map里,key需要与模板的#{xxx}名 对应
+        map.put("setmealList",setmealList);
+
+        //拼接路径
+        String file = out_put_path + "mobile_setmeal.html";
+        //生成静态页面
+        generateHtml("mobile_setmeal.ftl",map,file);
+    }
+
+    private void generateSetmealDetals(){
+
+    }
 }

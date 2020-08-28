@@ -24,4 +24,9 @@
         select DAY(orderDate) date,number,reservations from t_ordersetting
         where orderDate between #{minDate} and #{maxDate};
     </select>
+
+    <update id="editReservationsByOrderDate" parameterType="orderSetting">
+        update t_orderSetting set reservations=reservations+1
+        where id=#{id}
+    </update>
 </mapper>

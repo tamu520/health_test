@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.health.dao.MemberDao">
+    <sql id="findAllSql">
+        select id,fileNumber,name,sex,idCard,phoneNumber,regTime,password,email,birthday,remark from t_member
+    </sql>
+    
+    <select id="findByTelephone" parameterType="string" resultType="member">
+        <include refid="findAllSql"></include>
+        where phoneNumber=#{phone}
+    </select>
+
+    <insert id="add" parameterType="member">
+        insert t_member(fileNumber,name,sex,idCard,phoneNumber,regTime,password,email,birthday,remark)
+        values(#{fileNumber},#{name},#{sex},#{idCard},#{phoneNumber},#{regTime},#{password},#{email},#{birthday},#{remark})
+
+        <selectKey resultType="int" order="AFTER" keyProperty="id">
+            select last_insert_id();
+        </selectKey>
+    </insert>
+
+</mapper>

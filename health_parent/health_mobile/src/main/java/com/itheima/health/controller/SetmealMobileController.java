@@ -6,6 +6,7 @@ import com.itheima.health.pojo.Setmeal;
 import com.itheima.health.service.SetmealService;
 import com.itheima.health.utils.QiNiuUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,6 +33,13 @@ public class SetmealMobileController {
     @GetMapping("/findDetailById")
     public Result findDetailById(int id){
         Setmeal setmeal=setmealService.findDetailById(id);
+        setmeal.setImg(QiNiuUtils.DOMAIN+setmeal.getImg());
+        return new Result(true,null,setmeal);
+    }
+
+    @PostMapping("/findById")
+    public Result findById(int id){
+        Setmeal setmeal = setmealService.findById(id);
         setmeal.setImg(QiNiuUtils.DOMAIN+setmeal.getImg());
         return new Result(true,null,setmeal);
     }

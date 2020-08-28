@@ -42,7 +42,11 @@
     <!-- 依赖管理标签  必须加 -->
     <dependencyManagement>
         <dependencies>
-
+            <dependency>
+                <groupId>org.freemarker</groupId>
+                <artifactId>freemarker</artifactId>
+                <version>2.3.23</version>
+            </dependency>
             <!--阿里云服务器短信平台-->
             <dependency>
                 <groupId>com.aliyun</groupId>

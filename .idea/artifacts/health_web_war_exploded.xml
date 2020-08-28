@@ -23,6 +23,7 @@
           <element id="archive" name="health_common-1.0-SNAPSHOT.jar">
             <element id="module-output" name="health_common" />
           </element>
+          <element id="library" level="project" name="Maven: org.freemarker:freemarker:2.3.23" />
           <element id="library" level="project" name="Maven: com.github.pagehelper:pagehelper:4.1.4" />
           <element id="library" level="project" name="Maven: com.github.jsqlparser:jsqlparser:0.9.5" />
           <element id="library" level="project" name="Maven: org.mybatis:mybatis:3.4.5" />
