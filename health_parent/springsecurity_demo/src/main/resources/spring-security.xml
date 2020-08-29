@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--这个路径下不会被拦截-->
+    <security:http security="none" pattern="/page/*"/>
+    <security:http security="none" pattern="/login.html"/>
+    <security:http security="none" pattern="/fail.html"/>
+
+    <!--多个拦截器下,全路径的规则需要放到最下面-->
+    <!--
+        配置拦截规则
+        auto-config: 自动装配，处理login页面，认证的处理....
+        use-expressions: 是否使用spel表达式 与其下的intercept-url access 有关
+    -->
+    <security:http auto-config="true" use-expressions="true">
+        <!--
+            pattern="/**" 拦截所有路径
+            访问被拦截的路径时,登录的用户必须是access的角色,否则不能访问
+            可以写多个security:intercept-url
+        -->
+        <security:intercept-url pattern="/user/index.html" access="hasAuthority('ADD')"/>
+        <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_ADMIN')"/>
+
+        <!--    自定义的登录页面
+            login-page:被拦截时,被进入哪个页面
+            login-processing-url:提交数据由哪个页面来处理
+            username-parameter:自定义登录的input的用户名框
+            password-parameter:自定义登陆页面 input的密码框
+            default-target-url:登录成功后跳转到的页面
+            authentication-failure-url:登录失败跳转的页面
+            always-use-default-target:比如想进修改页面被拦截需要登录,如果这个值为true,登录成功后会跳转到默认页面,false则是刚刚被想进的修改页面
+
+        -->
+        <security:form-login
+                login-page="/login.html"
+                username-parameter="user"
+                password-parameter="pwd"
+                login-processing-url="/login.do"
+                default-target-url="/index.html"
+                authentication-failure-url="/fail.html"
+                always-use-default-target="true"
+        />
+        <!-- 关闭跨域保护 -->
+        <!--退出登录-->
+        <security:logout logout-url="/logout" logout-success-url="/index.html" invalidate-session="true"/>
+         <security:csrf disabled="true"/>
+    </security:http>
+
+    <bean id="userService" class="security.UserService"/>
+    <!--密码匹配器的类 这里使用bcrypt-->
+    <bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+    <!--认证管理器-->
+    <security:authentication-manager>
+        <security:authentication-provider user-service-ref="userService">
+            <!--使用了 user-service-ref属性 ,就不要使用下面的 user-service-->
+            <!--匹配密码类型-->
+            <security:password-encoder ref="encoder"/>
+
+            <!--使用写死在xml中的用户名和密码 的方式-->
+            <!--<security:user-service>
+                &lt;!&ndash;{noop}代表不加密,明文&ndash;&gt;
+                <security:user name="admin" password="{noop}admin" authorities="ROLE_ADMIN"/>
+            </security:user-service>-->
+
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+    <!--注解需要扫的包-->
+    <context:component-scan base-package="com.itheima"/>
+    <mvc:annotation-driven></mvc:annotation-driven>
+    <!--注解-->
+    <security:global-method-security pre-post-annotations="enabled" />
+
+</beans>
