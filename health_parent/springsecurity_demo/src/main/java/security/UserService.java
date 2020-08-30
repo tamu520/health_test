@@ -99,8 +99,7 @@ public class UserService implements UserDetailsService {
         System.out.println(encoder.matches("1234", "$2a$10$P7Qx8eKUPX5lngz9UEstUOaDRldEWrj9Rbyox/ShyeoxvPbEHTvni"));
         System.out.println(encoder.matches("1234", "$2a$10$5q.0a0F0hRix8TBJxQ4DB.ekwGzPs3e47hoQVNR7cihi/Rob.G3T6"));
         System.out.println(encoder.matches("1234", "$2a$10$voh.1PJRXQazoijK72sIoOslpmLYPyB.6LtT7aUrXqUO5G8Aw43we"));
-
-        System.out.println(encoder.matches("1234", "$2a$10$u/BcsUUqZNWUxdmDhbnoeeobJy6IBsL1Gn/S0dMxI2RbSgnMKJ.4a"));
+        System.out.println(encoder.matches("admin", "$2a$10$f5lq1FOU3CZncHUUvyxZ4.xO.SAfjUht4uNnlj3dwqn2b.t1JyE2K"));
     }
 
     private User findByUsername (String username){

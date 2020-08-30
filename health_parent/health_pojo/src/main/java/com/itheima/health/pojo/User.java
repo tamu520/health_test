@@ -19,6 +19,21 @@ public class User implements Serializable{
     private String telephone; // 联系电话
     private Set<Role> roles = new HashSet<Role>(0);//对应角色集合
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", birthday=" + birthday +
+                ", gender='" + gender + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", remark='" + remark + '\'' +
+                ", station='" + station + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
+
     public Integer getId() {
         return id;
     }
