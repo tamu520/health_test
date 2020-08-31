@@ -21,4 +21,35 @@
         select m.name member,s.name setmeal,o.orderDate,o.orderType from t_order o,t_member m,t_setmeal s
         where o.id=#{id} and o.member_id=m.id and o.setmeal_id=s.id
     </select>
+
+    <!--某一天有多少预约数量-->
+    <select id="findOrderCountByDate" parameterType="string" resultType="int">
+        select count(1) from t_order where orderDate=#{date};
+    </select>
+
+    <!--某一天有多少已到诊的数量-->
+    <select id="findVisitsCountByDate" parameterType="string" resultType="int">
+        select count(1) from t_order
+        where orderDate=#{date} and orderStatus="已到诊";
+    </select>
+
+    <!--这一个时间段的预约数量-->
+    <select id="findOrderCountBetweenDate" parameterType="map" resultType="int">
+        select count(1) from t_order
+        where orderDate between #{startTime} and #{endTime};
+    </select>
+
+    <!--这一个时间段的到诊数量-->
+    <select id="findVisitsCountAfterDate" parameterType="map" resultType="int">
+        select count(1) from t_order
+        where orderDate between #{startTime} and #{endTime} and orderStatus="已到诊";
+    </select>
+
+    <!--热门套餐-->
+    <select id="findHotSetmeal" resultType="map">
+        select count(1) setmeal_count,name,count(1)/num.total proportion
+        from t_order o,t_setmeal s,(select count(1) total from t_order) num
+        where o.setmeal_id=s.id group by s.id
+        order by setmeal_count desc
+    </select>
 </mapper>

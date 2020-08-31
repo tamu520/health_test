@@ -12,4 +12,14 @@ public interface OrderDao {
     void add(Order order);
 
     Map<String, String> findById(int id);
+
+    int findOrderCountByDate(String todayDate);
+
+    int findVisitsCountByDate(String todayDate);
+
+    int findOrderCountBetweenDate(Map<String, String> weekMap);
+
+    int findVisitsCountAfterDate(Map<String, String> monthMap);
+
+    List<Map<String, Object>> findHotSetmeal();
 }

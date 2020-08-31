@@ -6,13 +6,16 @@ import com.itheima.health.pojo.Member;
 import com.itheima.health.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service(interfaceClass = MemberService.class)
 public class MemberServiceImpl implements MemberService {
 
     @Autowired
     private MemberDao memberDao;
+
 
     @Override
     public Member findByTelephone(String telephone) {
@@ -29,5 +32,21 @@ public class MemberServiceImpl implements MemberService {
             memberDao.add(member);
         }
         return member;
+    }
+
+    /**
+     * 查找一年前到现在的每月用户总数
+     *
+     * @param month
+     * @return
+     */
+    @Override
+    public List<Integer> getMemberReport(List<String> month) {
+        //存放每月的会员总数
+        List<Integer> memberCount = new ArrayList<Integer>();
+        for (String s : month) {
+            memberCount.add(memberDao.findMemberCountBeforeDate(s + "-31"));
+        }
+        return memberCount;
     }
 }

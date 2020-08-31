@@ -117,4 +117,9 @@
             </collection>
         </collection>
     </resultMap>
+
+    <!--后端看报表 用套餐有多少订单-->
+    <select id="findSetmealCount" resultType="map">
+        select t.name ,count(1) value from t_setmeal t,t_order o where t.id=o.setmeal_id group by t.id
+    </select>
 </mapper>

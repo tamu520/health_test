@@ -7,6 +7,7 @@ import com.itheima.health.exception.HealthException;
 import com.itheima.health.pojo.Setmeal;
 
 import java.util.List;
+import java.util.Map;
 
 public interface SetmealService {
     PageResult<Setmeal> findPage(QueryPageBean queryPageBean);
@@ -26,4 +27,6 @@ public interface SetmealService {
     List<Setmeal> findAll();
 
     Setmeal findDetailById(int id);
+
+    List<Map<String,Object>> findSetmealCount();
 }

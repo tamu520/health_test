@@ -21,4 +21,22 @@
         </selectKey>
     </insert>
 
+    <select id="findMemberCountBeforeDate" parameterType="string" resultType="int">
+        select count(1) from t_member where regTime &lt;=#{month}
+    </select>
+
+    <!--根据日期查找会员数量-->
+    <select id="findMemberCountByDate" parameterType="string" resultType="int">
+        SELECT count(1) FROM `t_member` where regTime=#{date};
+    </select>
+
+    <!--会员总数量-->
+    <select id="findMemberTotalCount" resultType="int">
+        select count(1) from t_member
+    </select>
+
+    <!--从某个日期到现在开始计数有多少会员-->
+    <select id="findMemberCountAfterDate" parameterType="string" resultType="int">
+        select count(1) from t_member where regTime &gt;=#{date}
+    </select>
 </mapper>
