@@ -98,7 +98,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Map<String, String> findById(int id) {
+    public Map<String, Object> findById(int id) {
         return orderDao.findById(id);
     }
 }

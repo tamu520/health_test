@@ -33,6 +33,8 @@
                 <div class="box" style="height: 900px">
                     <div class="excelTitle" >
                         <el-button @click="exportExcel">导出Excel</el-button>运营数据统计
+                        <el-button @click="exportPdf">导出PDF</el-button>
+                        <el-button @click="seePdf">以PDF查看</el-button>
                     </div>
                     <div class="excelTime">日期：{{reportData.reportDate}}</div>
                     <table class="exceTable" cellspacing="0" cellpadding="0">
@@ -126,6 +128,12 @@
             methods:{
                 exportExcel(){
                     window.location.href = '/report/exportBusinessReport.do';
+                },
+                exportPdf(){
+                    window.location.href = '/report/exportBusinessReportPdf.do';
+                },
+                seePdf(){
+                    window.location.href = '/report/exportBusinessReportPdf.do?see=1';
                 }
             }
         })

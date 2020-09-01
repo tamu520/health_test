@@ -13,6 +13,25 @@
     <packaging>jar</packaging>
 
     <dependencies>
+        <!--JasperReports PDF报表-->
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+        </dependency>
+        <!-- 导入iText报表 -->
+        <dependency>
+            <groupId>com.lowagie</groupId>
+            <artifactId>itext</artifactId>
+        </dependency>
+        <!-- 导入iText报表，支持中文 -->
+        <!--<dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itext-asian</artifactId>
+        </dependency>-->
+        <dependency>
+            <groupId>com.alpha</groupId>
+            <artifactId>itextasian</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>

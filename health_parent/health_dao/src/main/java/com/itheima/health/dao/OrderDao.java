@@ -11,7 +11,7 @@ public interface OrderDao {
 
     void add(Order order);
 
-    Map<String, String> findById(int id);
+    Map<String, Object> findById(int id);
 
     int findOrderCountByDate(String todayDate);
 

@@ -26,6 +26,10 @@
                 <span class="center">传智健康</span>
                 <span class="f-right"><i class="icon-more"></i></span>
             </div>
+            <div class="info-title">
+                <span class="name">体检预约成功</span>
+                <input style="font-size: x-small;" id="exportSetmealInfoButton" @click="exportSetmealInfo()" type="button" value="导出预约订单信息">
+            </div>
             <!-- 页面内容 -->
             <div class="contentBox">
                 <div class="notice-article">
@@ -64,6 +68,11 @@
             el:'#app',
             data:{
                 orderInfo:{}
+            },
+            methods:{
+                exportSetmealInfo(){
+                    window.location.href = "/order/exportSetmealInfo.do?id="+id;
+                }
             },
             mounted(){
                 axios.post("/order/findById.do?id=" + id).then((response) => {

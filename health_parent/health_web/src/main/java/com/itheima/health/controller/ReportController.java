@@ -5,6 +5,8 @@ import com.itheima.health.entity.Result;
 import com.itheima.health.service.MemberService;
 import com.itheima.health.service.ReportService;
 import com.itheima.health.service.SetmealService;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -172,7 +173,7 @@ public class ReportController {
                 sheetAt.getRow(rowIndex).getCell(cellIndex).setCellValue(setmealMap.get("proportion").toString());
                 cellIndex++;
                 //备注
-                //sheetAt.getRow(rowIndex).getCell(cellIndex).setCellValue(setmealMap.get("name").toString());
+                sheetAt.getRow(rowIndex).getCell(cellIndex).setCellValue(setmealMap.get("name").toString());
                 rowIndex++;
             }
             //告诉浏览器是excel文件
@@ -188,6 +189,41 @@ public class ReportController {
             //输出
             workbook.write(resp.getOutputStream());
             resp.getOutputStream().flush();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping("/exportBusinessReportPdf")
+    public void exportBusinessReportPdf(Integer see,HttpServletRequest req,HttpServletResponse resp){
+        //用于拼接
+        String basePath=req.getSession().getServletContext().getRealPath("/template/");
+
+        //获取template下文件的路径
+        String jrxmlPath = basePath+"health_business3.jrxml";
+        //准备设置编译后的jasper路径
+        String jasperPath = basePath+"health_business3.jasper";
+
+        //填充模板
+        try {
+            //拿到结果
+            Map<String, Object> businessReport = reportService.getBusinessReport();
+            List<Map<String,Object>> hotSetmeals = (List<Map<String,Object>>)businessReport.get("hotSetmeal");
+
+            JasperCompileManager.compileReportToFile(jrxmlPath,jasperPath);
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperPath, businessReport, new JRBeanCollectionDataSource(hotSetmeals));
+            resp.setContentType("application/pdf");
+
+            String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            String filename = "运营数据PDF_"+today+".pdf";
+
+            if(see==null) {
+                resp.setHeader("Content-Disposition", "attachement;filename=" + filename);
+            }
+
+            JasperExportManager.exportReportToPdfStream(jasperPrint,resp.getOutputStream());
 
         } catch (Exception e) {
             e.printStackTrace();

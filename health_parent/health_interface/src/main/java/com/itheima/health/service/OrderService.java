@@ -8,5 +8,5 @@ import java.util.Map;
 public interface OrderService {
     Order submitOrder(Map<String, String> orderInfo) throws HealthException;
 
-    Map<String, String> findById(int id);
+    Map<String, Object> findById(int id);
 }

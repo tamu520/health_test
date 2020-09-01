@@ -24,7 +24,7 @@
             password-parameter="password"
             login-processing-url="/login.do"
             default-target-url="/pages/main.html"
-            always-use-default-target="false"
+            always-use-default-target="true"
         />
 
         <!--frame的访问-->
